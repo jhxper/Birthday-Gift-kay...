@@ -1,0 +1,658 @@
+
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Happy Birthday, Cass 💗</title>
+
+<style>
+* {
+    box-sizing: border-box;
+}
+
+body {
+    margin: 0;
+    min-height: 100vh;
+    padding: 20px 0;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    font-family: "Trebuchet MS", sans-serif;
+    background: linear-gradient(135deg, #e0fcff, #c1f1ff, #f0fdff);
+    color: #b83270;
+    overflow-x: hidden;
+}
+
+.card {
+    width: 92%;
+    max-width: 580px;
+    padding: 28px 20px;
+    text-align: center;
+    background: rgba(255, 255, 255, 0.92);
+    border: 2px solid white;
+    border-radius: 25px;
+    box-shadow: 0 10px 35px #d94b8c40;
+    animation: appear 0.8s ease;
+    z-index: 2;
+}
+
+.hidden {
+    display: none !important;
+}
+
+h1 {
+    font-size: 2.2rem;
+    margin-bottom: 10px;
+}
+
+p {
+    line-height: 1.8;
+}
+
+button {
+    background: linear-gradient(135deg, #ff77b7, #d83d85);
+    color: white;
+    padding: 12px 19px;
+    border: none;
+    border-radius: 30px;
+    font-size: 15px;
+    font-weight: bold;
+    cursor: pointer;
+    box-shadow: 0 4px 0 #b83270;
+    margin: 6px;
+}
+
+button:hover {
+    filter: brightness(1.08);
+}
+
+button:disabled {
+    opacity: 0.6;
+    cursor: not-allowed;
+}
+
+.gift-instruction {
+    color: #d83d85;
+    font-weight: bold;
+}
+
+/* AIMING GAME */
+.game-area {
+    position: relative;
+    width: 100%;
+    height: 270px;
+    margin: 18px auto;
+    overflow: hidden;
+    border: 2px solid #ffc5df;
+    border-radius: 20px;
+    background: linear-gradient(
+        #dffaff 0%,
+        #f4fdff 73%,
+        #d4f3d5 73%,
+        #bce9c2 100%
+    );
+}
+
+.target-gift {
+    position: absolute;
+    right: 7%;
+    top: 48px;
+    font-size: 55px;
+    z-index: 2;
+    filter: drop-shadow(0 3px 2px #b8327040);
+}
+
+.target-label {
+    position: absolute;
+    right: 3%;
+    top: 112px;
+    width: 110px;
+    font-size: 12px;
+    font-weight: bold;
+}
+
+.archer {
+    position: absolute;
+    left: 10px;
+    bottom: 18px;
+    width: 85px;
+    height: 100px;
+}
+
+.archer-person {
+    position: absolute;
+    bottom: 0;
+    left: 0;
+    font-size: 42px;
+}
+
+.bow {
+    position: absolute;
+    left: 42px;
+    bottom: 12px;
+    width: 32px;
+    height: 70px;
+    border: 4px solid #a65c31;
+    border-left: none;
+    border-radius: 0 50% 50% 0;
+    transform-origin: 0 50%;
+}
+
+.bow-string {
+    position: absolute;
+    left: -1px;
+    top: -3px;
+    height: 70px;
+    border-left: 2px solid #fff;
+}
+
+.aim-line {
+    position: absolute;
+    left: 78px;
+    top: 165px;
+    width: 100px;
+    border-top: 2px dashed #d83d85;
+    transform-origin: left center;
+    pointer-events: none;
+    opacity: 0.7;
+}
+
+.arrow {
+    position: absolute;
+    left: 68px;
+    top: 155px;
+    font-size: 28px;
+    line-height: 1;
+    z-index: 3;
+    opacity: 0;
+    pointer-events: none;
+}
+
+.arrow.flying {
+    opacity: 1;
+    transition: left 0.55s linear, top 0.55s linear;
+}
+
+.controls {
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    flex-wrap: wrap;
+    gap: 6px;
+}
+
+#gameMessage {
+    min-height: 28px;
+    font-weight: bold;
+    color: #d83d85;
+}
+
+/* BIRTHDAY LETTER */
+#letter {
+    text-align: left;
+    line-height: 1.9;
+    background: #fff8fc;
+    padding: 22px;
+    border-radius: 15px;
+    border: 1px solid #ffc5df;
+    margin-top: 20px;
+}
+
+.signature {
+    text-align: right;
+    color: #d83d85;
+    font-weight: bold;
+}
+
+/* PHOTO SURPRISE */
+.memory-picture {
+    width: 100%;
+    max-width: 350px;
+    height: auto;
+    border: 5px solid white;
+    border-radius: 20px;
+    box-shadow: 0 8px 25px #d94b8c50;
+}
+
+#giftPicture {
+    margin-top: 25px;
+    padding: 18px;
+    background: #fff0f7;
+    border: 2px solid #ffc5df;
+    border-radius: 20px;
+    animation: appear 0.8s ease;
+}
+
+.heart {
+    position: fixed;
+    bottom: -30px;
+    font-size: 25px;
+    animation: floatUp 7s linear forwards;
+    pointer-events: none;
+    z-index: 5;
+}
+
+@keyframes appear {
+    from {
+        opacity: 0;
+        transform: translateY(20px) scale(0.95);
+    }
+    to {
+        opacity: 1;
+        transform: translateY(0) scale(1);
+    }
+}
+
+@keyframes floatUp {
+    from {
+        transform: translateY(0) rotate(0);
+        opacity: 1;
+    }
+    to {
+        transform: translateY(-115vh) rotate(360deg);
+        opacity: 0;
+    }
+}
+
+@media (max-width: 420px) {
+    .card {
+        padding: 22px 13px;
+    }
+
+    .game-area {
+        height: 250px;
+    }
+
+    .target-gift {
+        font-size: 45px;
+    }
+
+    button {
+        padding: 11px 14px;
+    }
+}
+</style>
+</head>
+
+<body>
+
+<!-- FIRST SCREEN -->
+<div class="card" id="intro">
+
+    <p>🎀 A LITTLE GIFT JUST FOR YOU 🎀</p>
+
+    <h1>Happy Birthday,<br>Cassandra! 💗</h1>
+
+    <p>
+        To one of my favorite friends in the world!<br>
+        Hit the gift with your arrow to unlock your letter.
+    </p>
+
+    <!-- AIMING GAME -->
+    <div class="game-area" id="gameArea">
+
+        <div class="target-gift" id="targetGift">🎁</div>
+        <div class="target-label">A Gift for you! 🎁</div>
+
+        <div class="archer">
+            <div class="archer-person">🧍🏻‍♀️</div>
+            <div class="bow" id="bow">
+                <span class="bow-string"></span>
+            </div>
+        </div>
+
+        <div class="aim-line" id="aimLine"></div>
+        <div class="arrow" id="arrow">➤</div>
+
+    </div>
+
+    <p class="gift-instruction">
+        🏹 Aim carefully at the gift!
+    </p>
+
+    <div class="controls">
+        <button onclick="changeAngle(-5)">↙ Aim Down</button>
+        <button onclick="changeAngle(5)">↗ Aim Up</button>
+    </div>
+
+    <p>
+        Aim angle: <strong id="angleValue">25°</strong><br>
+        You can also use your keyboard's ← and → keys.
+    </p>
+
+    <div class="controls">
+        <button id="shootButton" onclick="shootArrow()">
+            Shoot Arrow! 🏹
+        </button>
+
+        <button onclick="resetAim()">
+            Reset ↻
+        </button>
+    </div>
+
+    <p id="gameMessage" role="status" aria-live="polite">
+        Ready, aim, shoot! 💗
+    </p>
+
+</div>
+
+
+<!-- BIRTHDAY LETTER -->
+<div class="card hidden" id="letterView">
+
+    <h1>To My Girl Bestie 💕</h1>
+
+    <p>🎂 🌸 💗 🌷 🎀</p>
+
+    <div id="letter">
+
+        <p>Happy birthday Cassssssssssssss!! 💗</p>
+
+        <p>
+            Happy birthday Cass, I just want you to know how thankful
+            I am na makilala kita. Thank you for being someone
+            I can laugh with. talk to, and sa mga chika mo na yan,
+            kwento mo sa'kin lahat yan pag nag meet up HAHAHAH.
+        </p>
+
+        <p>
+            Since it's your special day... I fully support your
+            decision to treat me HAHAHAH, joke aside, I hope you
+            receive all the love and happiness you deserve.
+            May all your dreams come true, and may you always have a
+            reason to smile. Remember that I'll always be
+            cheering for you!
+        </p>
+
+        <p>
+            So ayon wala na akong sasabihin just Stay pretty nalang,
+            stay kind, and never forget how special you are.
+            Thank you ulit for being my friend and I hope we make
+            many more memories together (kapag may pera).
+            Pasensya na kung di material na gift nabigay ko but
+            next year baka sakali bigyan na kita ng lupa HAHAHA
+        </p>
+
+        <p class="signature">
+            With lots of love,<br>
+            Your Nightmare ay este Your Friend 💌
+        </p>
+
+    </div>
+
+    <p>You deserve all the happiness in the world! 🎉</p>
+
+    <h2>More Surprise?  🎁</h2>
+
+    <p>Don't click below may makikita ka diyang ano... </p>
+
+    <button onclick="showGiftPicture()">
+        🎁 Think before you click...
+    </button>
+
+    <div id="giftPicture" class="hidden">
+
+        <h2>Sabi nganing wag pindutin pero sige na nga SURPRISE! 💗</h2>
+
+        <!-- Put lala.jpg in the same folder as this HTML file -->
+        <img
+            src="cass.jpg"
+            alt="Our special picture"
+            class="memory-picture"
+        >
+
+        <p>
+            One of my favorite memories with you! 💕
+            Wala na akong mahanap na pic natin, sa susunod mag papic ka sa'kin
+        </p>
+
+        <button onclick="hideGiftPicture()">
+            Hide Picture 💌
+        </button>
+
+    </div>
+
+    <br>
+
+    <button onclick="location.reload()">
+        Read Again 💗
+    </button>
+
+</div>
+
+
+<script>
+let angle = 25;
+let isShooting = false;
+let hasWon = false;
+
+const gameArea = document.getElementById("gameArea");
+const bow = document.getElementById("bow");
+const arrow = document.getElementById("arrow");
+const aimLine = document.getElementById("aimLine");
+const targetGift = document.getElementById("targetGift");
+const gameMessage = document.getElementById("gameMessage");
+const shootButton = document.getElementById("shootButton");
+
+function updateAim() {
+    document.getElementById("angleValue").textContent =
+        angle + "°";
+
+    bow.style.transform = `rotate(${-angle}deg)`;
+    aimLine.style.transform = `rotate(${-angle}deg)`;
+    arrow.style.transform = `rotate(${-angle}deg)`;
+}
+
+function changeAngle(amount) {
+    if (isShooting || hasWon) return;
+
+    angle = Math.max(0, Math.min(80, angle + amount));
+
+    updateAim();
+
+    gameMessage.textContent =
+        "Your aim is " + angle + "°. Line it up with the gift! 🎯";
+}
+
+function resetAim() {
+    if (isShooting || hasWon) return;
+
+    angle = 25;
+
+    updateAim();
+
+    gameMessage.textContent =
+        "Aim carefully and try again! 💗";
+}
+
+function shootArrow() {
+    if (isShooting || hasWon) return;
+
+    isShooting = true;
+    shootButton.disabled = true;
+
+    const areaRect = gameArea.getBoundingClientRect();
+    const giftRect = targetGift.getBoundingClientRect();
+
+    // Starting point of the arrow inside the game area.
+    const startX = 78;
+    const startY = areaRect.height - 70;
+
+    // Find the center of the gift.
+    const targetX =
+        giftRect.left - areaRect.left + giftRect.width / 2;
+
+    const targetY =
+        giftRect.top - areaRect.top + giftRect.height / 2;
+
+    // Work out where the arrow travels at the chosen angle.
+    const dx = targetX - startX;
+    const radians = angle * Math.PI / 180;
+
+    const endX = targetX;
+    const endY = startY - Math.tan(radians) * dx;
+
+    // Check whether the arrow's path passes close enough
+    // to the gift's center.
+    const verticalDifference = Math.abs(endY - targetY);
+    const hitTolerance = Math.max(15, giftRect.height * 0.35);
+
+    const hit =
+        dx > 0 &&
+        endY >= 0 &&
+        endY <= areaRect.height &&
+        verticalDifference <= hitTolerance;
+
+    gameMessage.textContent = "The arrow is flying! 🏹";
+
+    arrow.style.left = startX + "px";
+    arrow.style.top = startY + "px";
+    arrow.style.transform = `rotate(${-angle}deg)`;
+    arrow.classList.remove("flying");
+
+    // Restart the CSS transition for every shot.
+    void arrow.offsetWidth;
+
+    arrow.classList.add("flying");
+
+    // A miss follows the chosen angle and visibly flies above
+    // or below the gift. A hit lands on the gift.
+    const visibleEndY = Math.max(
+        8,
+        Math.min(areaRect.height - 25, endY)
+    );
+
+    arrow.style.left = endX - 12 + "px";
+    arrow.style.top = visibleEndY - 8 + "px";
+
+    setTimeout(() => {
+        arrow.classList.remove("flying");
+
+        if (hit) {
+            hasWon = true;
+
+            targetGift.textContent = "🎉";
+            targetGift.style.transform = "scale(1.25)";
+
+            gameMessage.textContent =
+                "Bullseye! You unlocked your letter! 💗";
+
+            createHearts(30);
+
+            setTimeout(openLetter, 1100);
+
+        } else {
+            gameMessage.textContent =
+                "You missed! Adjust your aim and shoot again. 🎯";
+
+            isShooting = false;
+            shootButton.disabled = false;
+
+            arrow.style.left = startX + "px";
+            arrow.style.top = startY + "px";
+            updateAim();
+        }
+    }, 600);
+}
+
+function openLetter() {
+    document.getElementById("intro").classList.add("hidden");
+    document.getElementById("letterView").classList.remove("hidden");
+
+    window.scrollTo({
+        top: 0,
+        behavior: "smooth"
+    });
+
+    createHearts(25);
+}
+
+function showGiftPicture() {
+    const picture = document.getElementById("giftPicture");
+
+    picture.classList.remove("hidden");
+
+    createHearts(20);
+
+    setTimeout(() => {
+        picture.scrollIntoView({
+            behavior: "smooth",
+            block: "center"
+        });
+    }, 100);
+}
+
+function hideGiftPicture() {
+    document.getElementById("giftPicture")
+        .classList.add("hidden");
+}
+
+function createHearts(count = 12) {
+    const symbols = ["💗", "💕", "✨", "💖", "🌸", "🎀"];
+
+    for (let i = 0; i < count; i++) {
+        const heart = document.createElement("div");
+
+        heart.className = "heart";
+
+        heart.textContent =
+            symbols[Math.floor(Math.random() * symbols.length)];
+
+        heart.style.left = Math.random() * 100 + "vw";
+
+        heart.style.animationDelay =
+            Math.random() * 1.5 + "s";
+
+        heart.style.animationDuration =
+            (4 + Math.random() * 4) + "s";
+
+        document.body.appendChild(heart);
+
+        setTimeout(() => heart.remove(), 10000);
+    }
+}
+
+// Keyboard controls.
+document.addEventListener("keydown", function(event) {
+    if (document.getElementById("intro").classList.contains("hidden")) {
+        return;
+    }
+
+    if (event.key === "ArrowLeft") {
+        event.preventDefault();
+        changeAngle(-2);
+    } else if (event.key === "ArrowRight") {
+        event.preventDefault();
+        changeAngle(2);
+    } else if (event.code === "Space") {
+        event.preventDefault();
+        shootArrow();
+    }
+});
+
+// Floating hearts on the first screen.
+setInterval(() => {
+    const heart = document.createElement("div");
+
+    heart.className = "heart";
+
+    heart.textContent = ["💗", "💕", "✨"][
+        Math.floor(Math.random() * 3)
+    ];
+
+    heart.style.left = Math.random() * 100 + "vw";
+
+    heart.style.animationDuration =
+        (5 + Math.random() * 4) + "s";
+
+    document.body.appendChild(heart);
+
+    setTimeout(() => heart.remove(), 10000);
+}, 1200);
+
+updateAim();
+</script>
+
+</body>
+</html>
